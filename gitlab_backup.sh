@@ -108,14 +108,17 @@ function backup_data {
         echo -e "---------------------------------------------------------------"
 
         msg "Копирование данных контейнера: ${BBLUE}${CONTAINER_NAME} ${ALL_OFF}запущена...подождите"
-        docker exec -it ${CONTAINER_NAME} ${CONTAINER_NAME}-rake ${CONTAINER_NAME}:backup:create
         
+        # Для версий ниже 12.1
+        #docker exec -it ${CONTAINER_NAME} ${CONTAINER_NAME}-rake ${CONTAINER_NAME}:backup:create
+        # Для версий выше 12.1
+        docker exec -it ${CONTAINER_NAME} gitlab-backup create
         #Находим последную созданную копию и копируем
         ls -t ${PATCH_TO_GITLAB}/data/backups | grep -v \/ | head -n 1 | while read var; do echo "$var"; 
         creat_folder
         cp ${PATCH_TO_GITLAB}/data/backups/$var ${PATCH_TO_BAKUP}/$var;
+        tar -cvf config.tar ${PATCH_TO_GITLAB}/config/gitlab-secrets.json ${PATCH_TO_GITLAB}/config/gitlab.rb
 
-        msg "Копирование данных контейнера ${BBLUE}${CONTAINER_NAME} ${ALL_OFF} завершено"
         msg "Создан файл данных: ${BBLUE}${var}  ${ALL_OFF}по пути: ${BBLUE}${PATCH_TO_BAKUP}"
         done
         return 0
@@ -166,7 +169,7 @@ function backup_img {
         msg "Копирование образа: ${BBLUE}${IMAGE_NAME} ${ALL_OFF}запущено...подождите"
         docker save -o ${PATCH_TO_BAKUP}${DATA_FORMAT}_img_gitlab.tar ${IMAGE_NAME}
     
-        Находим последную созданную копию и копируем
+        #Находим последную созданную копию и копируем
         ls -t ${PATCH_TO_GITLAB}/data/backups | grep -v \/ | head -n 1 | while read var; do echo "$var";
         creat_folder
         cp ${PATCH_TO_GITLAB}/data/backups/$var ${PATCH_TO_BAKUP}/$var;
