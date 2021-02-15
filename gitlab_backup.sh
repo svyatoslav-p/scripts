@@ -151,7 +151,10 @@ function restore_data {
         echo -e " В связи с опасностью потери данных и особенностями Docker.    "
         echo -e "                                                               "
         echo -e " Дальнейшие действия выполняем вручную. Для этого выполните:   "
+        echo -e " Для версии ниже 12.1:   "
         echo -e " ${BBLUE}docker exec -it $CONTAINER_NAME $CONTAINER_NAME-rake $CONTAINER_NAME:backup:restore BACKUP=$TMP_NAME_BACKUP ${ALL_OFF}"
+        echo -e " Для версии выше 12.1:   "
+        echo -e " ${BBLUE}docker exec -it $CONTAINER_NAME gitlab-backup restore BACKUP=$TMP_NAME_BACKUP ${ALL_OFF}"
         echo -e "---------------------------------------------------------------"
         #docker exec -i $CONTAINER_NAME $CONTAINER_NAME-rake $CONTAINER_NAME:backup:restore BACKUP=$TMP_NAME_BACKUP
         done
