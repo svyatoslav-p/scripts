@@ -67,6 +67,7 @@ function print_help {
 function mount_dir {
     if [[ $MOUNT_DIR_FLAG == 1 ]]; then
         LOSETUP_DEV=`sudo losetup -f --show $PATCH_TO_IMG | awk -F"/" '{print $3}'`
+        sudo partprobe /dev/${LOSETUP_DEV}
         echo -e "----> Устройство: ${BBLUE}$LOSETUP_DEV ${ALL_OFF}"
     
         sudo mount /dev/${LOSETUP_DEV}p2 $MOUNT_DIR
