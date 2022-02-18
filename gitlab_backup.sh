@@ -114,7 +114,9 @@ function backup_data {
         # Для версий выше 12.1
         docker exec -it ${CONTAINER_NAME} gitlab-backup create
         #Находим последную созданную копию и копируем
-        ls -t ${PATCH_TO_GITLAB}/data/backups | grep -v \/ | head -n 1 | while read var; do echo "$var"; 
+        ls -t ${PATCH_TO_GITLAB}/data/backups | grep -v \/ | head -n 1 | while read var; do 
+            echo "$var"
+        done
         creat_folder
         cp ${PATCH_TO_GITLAB}/data/backups/$var ${PATCH_TO_BAKUP}/$var;
         tar -cvf config.tar ${PATCH_TO_GITLAB}/config/gitlab-secrets.json ${PATCH_TO_GITLAB}/config/gitlab.rb
