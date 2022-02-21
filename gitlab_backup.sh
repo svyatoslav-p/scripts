@@ -109,6 +109,7 @@ function backup_data {
 
         msg "Копирование данных контейнера: ${BBLUE}${CONTAINER_NAME} ${ALL_OFF}запущена...подождите"
         
+        # При использовании Cron флаг -it необходимо убрать иначе задача не выполнится!!!
         # Для версий ниже 12.1
         #docker exec -it ${CONTAINER_NAME} ${CONTAINER_NAME}-rake ${CONTAINER_NAME}:backup:create
         # Для версий выше 12.1
